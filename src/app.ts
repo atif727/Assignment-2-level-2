@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import { StudentRoutes } from './app/modules/students/student.route';
+import { KBRoutes } from './app/modules/KBS/KB.route';
 const app: Application = express();
 
 // parser
@@ -9,10 +9,10 @@ app.use(cors());
 
 // application
 
-app.use('/api/v1/students', StudentRoutes);
+app.use('/api/products', KBRoutes);
 
 const getAcontroller = (req: Request, res: Response) => {
-  res.send('erm what the sigma');
+  res.send('erm hii..');
 };
 
 app.get('/', getAcontroller);
