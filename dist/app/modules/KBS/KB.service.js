@@ -35,8 +35,9 @@ const deleteOneKBFromDB = (id) => __awaiter(void 0, void 0, void 0, function* ()
 });
 const updateKBFromDB = (id, updatedKB) => __awaiter(void 0, void 0, void 0, function* () {
     const body = updatedKB;
+    console.log("this is body: " + body);
     const result = yield KB_model_1.KBModel.findByIdAndUpdate(id, body, { new: true });
-    console.log(result);
+    console.log("this is result: " + result);
     return result;
 });
 const searchKBFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {

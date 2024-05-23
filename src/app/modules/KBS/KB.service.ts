@@ -30,8 +30,9 @@ const deleteOneKBFromDB = async (id: string) => {
 
 const updateKBFromDB = async (id: string, updatedKB: KB) => {
   const body = updatedKB;
+  console.log("this is body: " + body);
   const result = await KBModel.findByIdAndUpdate(id, body, { new: true });
-  console.log(result);
+  console.log("this is result: " + result);
   return result;
 };
 

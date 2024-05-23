@@ -9,7 +9,6 @@ const router = express_1.default.Router();
 const KB_controller_1 = require("./KB.controller");
 router.post('/', KB_controller_1.KBControllers.createKB);
 router.get('/', KB_controller_1.KBControllers.getAllOrSearchedKBs);
-// router.get('/', KBControllers.querySearchingKB);
 router.get('/:id', KB_controller_1.KBControllers.getOneKB);
 router.put('/:id', KB_controller_1.KBControllers.UpdateKB);
 router.delete('/:id', KB_controller_1.KBControllers.deleteKB);

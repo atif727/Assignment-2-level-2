@@ -1,29 +1,43 @@
 import { Request, Response } from 'express';
 import { orderServices } from './order.service';
 import { KBServices } from '../KBS/KB.service';
+import { KBModel } from '../KBS/KB.model';
+import { error } from 'console';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const orderData = req.body;
     const result = await orderServices.createORDERinDB(orderData);
-    let orderVerify = await KBServices.getOneKBFromDBwith_id(result.productId);
-    if (orderVerify === null) {
-      res.status(400).json({
-        succss: false,
-        message: "product doesn't exist :(",
+    const wantedQuantity = result.quantity;
+    let keyboard = await KBModel.findById(result.productId)
+    if (!keyboard) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Keyboard not found' });
+    }
+    if (
+      result.quantity > keyboard.inventory.quantity
+      // keyboard.inventory.quantity === 0 &&
+      // keyboard.inventory.inStock === false
+    ) {
+      return res.status(404).json({
+        success: false,
+        message: 'Insufficient quantity of the product in inventory',
       });
     } else {
+      keyboard.inventory.quantity -= wantedQuantity;
+      if (keyboard.inventory.quantity === 0) {
+        keyboard.inventory.inStock = false;
+      } else {
+        keyboard.inventory.inStock = true;
+      }
+      await keyboard.save();
       res.status(200).json({
         success: true,
         message: 'order is created successfully',
         data: result,
       });
     }
-    // res.status(200).json({
-    //   success: true,
-    //   message: 'order is created successfully',
-    //   data: result,
-    // });
   } catch (err) {
     console.log(err);
     res.status(400).json({
@@ -33,7 +47,7 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
-const getAllOrders = async (req: Request, res: Response) => {
+const getAllOrFilteredOrders = async (req: Request, res: Response) => {
   if (Object.keys(req.query).length === 0) {
     try {
       const result = await orderServices.getAllORDERSFromDB();
@@ -77,5 +91,5 @@ const getAllOrders = async (req: Request, res: Response) => {
 
 export const orderControllers = {
   createOrder,
-  getAllOrders,
+  getAllOrFilteredOrders,
 };

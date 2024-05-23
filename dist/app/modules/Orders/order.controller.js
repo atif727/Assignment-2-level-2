@@ -11,30 +11,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderControllers = void 0;
 const order_service_1 = require("./order.service");
-const KB_service_1 = require("../KBS/KB.service");
+const KB_model_1 = require("../KBS/KB.model");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orderData = req.body;
         const result = yield order_service_1.orderServices.createORDERinDB(orderData);
-        let orderVerify = yield KB_service_1.KBServices.getOneKBFromDBwith_id(result.productId);
-        if (orderVerify === null) {
-            res.status(400).json({
-                succss: false,
-                message: "product doesn't exist :(",
+        const wantedQuantity = result.quantity;
+        let keyboard = yield KB_model_1.KBModel.findById(result.productId);
+        if (!keyboard) {
+            return res
+                .status(404)
+                .json({ success: false, message: 'Keyboard not found' });
+        }
+        if (result.quantity > keyboard.inventory.quantity
+        // keyboard.inventory.quantity === 0 &&
+        // keyboard.inventory.inStock === false
+        ) {
+            return res.status(404).json({
+                success: false,
+                message: 'Insufficient quantity of the product in inventory',
             });
         }
         else {
+            keyboard.inventory.quantity -= wantedQuantity;
+            if (keyboard.inventory.quantity === 0) {
+                keyboard.inventory.inStock = false;
+            }
+            else {
+                keyboard.inventory.inStock = true;
+            }
+            yield keyboard.save();
             res.status(200).json({
                 success: true,
                 message: 'order is created successfully',
                 data: result,
             });
         }
-        // res.status(200).json({
-        //   success: true,
-        //   message: 'order is created successfully',
-        //   data: result,
-        // });
     }
     catch (err) {
         console.log(err);
@@ -44,7 +56,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
-const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllOrFilteredOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (Object.keys(req.query).length === 0) {
         try {
             const result = yield order_service_1.orderServices.getAllORDERSFromDB();
@@ -91,5 +103,5 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.orderControllers = {
     createOrder,
-    getAllOrders,
+    getAllOrFilteredOrders,
 };
