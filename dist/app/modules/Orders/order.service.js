@@ -8,44 +8,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KBServices = void 0;
+exports.orderServices = void 0;
+const express_1 = __importDefault(require("express"));
 const order_model_1 = require("./order.model");
-const createKBinDB = (KB) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_model_1.KBModel.create(KB);
+const router = express_1.default.Router();
+const createORDERinDB = (order) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_model_1.orderModel.create(order);
     return result;
 });
-const getAllKBsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_model_1.KBModel.find();
+const getAllORDERSFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_model_1.orderModel.find();
     return result;
 });
-const getOneKBFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_model_1.KBModel.findOne({ id });
-    console.log(result);
-    return result;
-});
-const deleteOneKBFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_model_1.KBModel.deleteOne({ id });
-    return result;
-});
-const updateKBFromDB = (id, updatedKB) => __awaiter(void 0, void 0, void 0, function* () {
-    const body = updatedKB;
-    const result = yield order_model_1.KBModel.findByIdAndUpdate(id, body, { new: true });
-    console.log(result);
-    return result;
-});
-const searchKBFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
-    let result = yield order_model_1.KBModel.find({
-        name: { $regex: searchTerm, $options: 'i' },
+const searchOrderFromDB = (givenEmail) => __awaiter(void 0, void 0, void 0, function* () {
+    let result = yield order_model_1.orderModel.find({
+        email: { $regex: givenEmail, $options: 'i' },
     });
     console.log(result);
     return result;
 });
-exports.KBServices = {
-    createKBinDB,
-    getAllKBsFromDB,
-    getOneKBFromDB,
-    deleteOneKBFromDB,
-    updateKBFromDB,
-    searchKBFromDB,
+exports.orderServices = {
+    createORDERinDB,
+    getAllORDERSFromDB,
+    searchOrderFromDB,
 };

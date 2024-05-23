@@ -1,128 +1,82 @@
 import { Request, Response } from 'express';
-import { KBServices } from './order.service';
+import { orderServices } from './order.service';
+import { KBServices } from '../KBS/KB.service';
 
-const createKB = async (req: Request, res: Response) => {
+const createOrder = async (req: Request, res: Response) => {
   try {
-    const KBData = req.body;
-    const result = await KBServices.createKBinDB(KBData);
-    // send response
-    res.status(200).json({
-      success: true,
-      message: 'KB is created successfully',
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      succss: false,
-      message: 'failed to create data :(',
-    });
-  }
-};
-
-const getAllKBs = async (req: Request, res: Response) => {
-  try {
-    const result = await KBServices.getAllKBsFromDB();
-    res.status(200).json({
-      success: true,
-      message: 'KBs shown successfully',
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      succss: false,
-      message: 'failed to get data :(',
-    });
-  }
-};
-
-const getOneKB = async (req: Request, res: Response) => {
-  try {
-    const KBId = req.params.id;
-    const result = await KBServices.getOneKBFromDB(KBId);
-    res.status(200).json({
-      success: true,
-      message: 'specific KB shown successfully',
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      succss: false,
-      message: 'failed to get data :(',
-    });
-  }
-};
-
-const deleteKB = async (req: Request, res: Response) => {
-  try {
-    const KBId = req.params.id;
-    const result = await KBServices.deleteOneKBFromDB(KBId);
-    res.status(200).json({
-      success: true,
-      message: 'specific KB Deleted successfully',
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      succss: false,
-      message: 'failed to delete data :(',
-    });
-  }
-};
-const UpdateKB = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const updatedKB = req.body;
-    const result = await KBServices.updateKBFromDB(id, updatedKB);
-    res.status(200).json({
-      success: true,
-      message: 'specific KB updated successfully',
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      succss: false,
-      message: 'failed to update data :(',
-    });
-  }
-};
-
-const querySearchingKB = async (req: Request, res: Response) => {
-  try {
-    const searchTerm: string | number = req.query.searchTerm as string;
-    // console.log(searchTerm)
-
-    const request: Request = req;
-    const result = await KBServices.searchKBFromDB(searchTerm);
-    res.status(200).json({
-      success: true,
-      message: `keyboard Products matching the term ${searchTerm} found successfully!`,
-      data: result,
-    });
-    if (!searchTerm) {
+    const orderData = req.body;
+    const result = await orderServices.createORDERinDB(orderData);
+    let orderVerify = await KBServices.getOneKBFromDBwith_id(result.productId);
+    if (orderVerify === null) {
       res.status(400).json({
         succss: false,
-        message: 'Search Term is missing in the searchTerm query field',
+        message: "product doesn't exist :(",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'order is created successfully',
+        data: result,
       });
     }
+    // res.status(200).json({
+    //   success: true,
+    //   message: 'order is created successfully',
+    //   data: result,
+    // });
   } catch (err) {
     console.log(err);
     res.status(400).json({
       succss: false,
-      message: 'failed to get data :(',
+      message: 'failed to create order :(',
     });
   }
 };
 
-export const KBControllers = {
-  createKB,
-  getAllKBs,
-  getOneKB,
-  deleteKB,
-  UpdateKB,
-  querySearchingKB,
+const getAllOrders = async (req: Request, res: Response) => {
+  if (Object.keys(req.query).length === 0) {
+    try {
+      const result = await orderServices.getAllORDERSFromDB();
+      res.status(200).json({
+        success: true,
+        message: 'orders shown successfully',
+        data: result,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({
+        succss: false,
+        message: 'failed to get orders :(',
+      });
+    }
+  } else {
+    try {
+      const givenEmail: string = req.query.email as string;
+      const result = await orderServices.searchOrderFromDB(givenEmail);
+      res.status(200).json({
+        success: true,
+        message: `Orders matching the email ${givenEmail} found successfully!`,
+        data: result,
+      });
+      if (givenEmail === null) {
+        res.status(400).json({
+          succss: false,
+          message: 'email is missing in the query field',
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({
+        succss: false,
+        message: 'failed to get email :(',
+      });
+    }
+  }
+};
+
+
+export const orderControllers = {
+  createOrder,
+  getAllOrders,
+  querySearchingOrder,
 };

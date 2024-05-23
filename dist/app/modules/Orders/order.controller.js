@@ -9,130 +9,86 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KBControllers = void 0;
+exports.orderControllers = void 0;
 const order_service_1 = require("./order.service");
-const createKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const KB_service_1 = require("../KBS/KB.service");
+const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const KBData = req.body;
-        const result = yield order_service_1.KBServices.createKBinDB(KBData);
-        // send response
-        res.status(200).json({
-            success: true,
-            message: 'KB is created successfully',
-            data: result,
-        });
-    }
-    catch (err) {
-        console.log(err);
-        res.status(400).json({
-            succss: false,
-            message: 'failed to create data :(',
-        });
-    }
-});
-const getAllKBs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield order_service_1.KBServices.getAllKBsFromDB();
-        res.status(200).json({
-            success: true,
-            message: 'KBs shown successfully',
-            data: result,
-        });
-    }
-    catch (err) {
-        console.log(err);
-        res.status(400).json({
-            succss: false,
-            message: 'failed to get data :(',
-        });
-    }
-});
-const getOneKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const KBId = req.params.id;
-        const result = yield order_service_1.KBServices.getOneKBFromDB(KBId);
-        res.status(200).json({
-            success: true,
-            message: 'specific KB shown successfully',
-            data: result,
-        });
-    }
-    catch (err) {
-        console.log(err);
-        res.status(400).json({
-            succss: false,
-            message: 'failed to get data :(',
-        });
-    }
-});
-const deleteKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const KBId = req.params.id;
-        const result = yield order_service_1.KBServices.deleteOneKBFromDB(KBId);
-        res.status(200).json({
-            success: true,
-            message: 'specific KB Deleted successfully',
-            data: result,
-        });
-    }
-    catch (err) {
-        console.log(err);
-        res.status(400).json({
-            succss: false,
-            message: 'failed to delete data :(',
-        });
-    }
-});
-const UpdateKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const id = req.params.id;
-        const updatedKB = req.body;
-        const result = yield order_service_1.KBServices.updateKBFromDB(id, updatedKB);
-        res.status(200).json({
-            success: true,
-            message: 'specific KB updated successfully',
-            data: result,
-        });
-    }
-    catch (err) {
-        console.log(err);
-        res.status(400).json({
-            succss: false,
-            message: 'failed to update data :(',
-        });
-    }
-});
-const querySearchingKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const searchTerm = req.query.searchTerm;
-        // console.log(searchTerm)
-        const request = req;
-        const result = yield order_service_1.KBServices.searchKBFromDB(searchTerm);
-        res.status(200).json({
-            success: true,
-            message: `keyboard Products matching the term ${searchTerm} found successfully!`,
-            data: result,
-        });
-        if (!searchTerm) {
+        const orderData = req.body;
+        const result = yield order_service_1.orderServices.createORDERinDB(orderData);
+        let orderVerify = yield KB_service_1.KBServices.getOneKBFromDBwith_id(result.productId);
+        if (orderVerify === null) {
             res.status(400).json({
                 succss: false,
-                message: 'Search Term is missing in the searchTerm query field',
+                message: "product doesn't exist :(",
+            });
+        }
+        else {
+            res.status(200).json({
+                success: true,
+                message: 'order is created successfully',
+                data: result,
+            });
+        }
+        // res.status(200).json({
+        //   success: true,
+        //   message: 'order is created successfully',
+        //   data: result,
+        // });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({
+            succss: false,
+            message: 'failed to create order :(',
+        });
+    }
+});
+const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (Object.keys(req.query).length === 0) {
+        try {
+            const result = yield order_service_1.orderServices.getAllORDERSFromDB();
+            res.status(200).json({
+                success: true,
+                message: 'orders shown successfully',
+                data: result,
+            });
+        }
+        catch (err) {
+            console.log(err);
+            res.status(400).json({
+                succss: false,
+                message: 'failed to get orders :(',
             });
         }
     }
-    catch (err) {
-        console.log(err);
-        res.status(400).json({
-            succss: false,
-            message: 'failed to get data :(',
-        });
+    else {
+        try {
+            const givenEmail = req.query.email;
+            const result = yield order_service_1.orderServices.searchOrderFromDB(givenEmail);
+            res.status(200).json({
+                success: true,
+                message: `Orders matching the email ${givenEmail} found successfully!`,
+                data: result,
+            });
+            if (givenEmail === null) {
+                res.status(400).json({
+                    succss: false,
+                    message: 'email is missing in the query field',
+                });
+            }
+        }
+        catch (err) {
+            console.log(err);
+            res.status(400).json({
+                succss: false,
+                message: 'failed to get email :(',
+            });
+        }
     }
 });
-exports.KBControllers = {
-    createKB,
-    getAllKBs,
-    getOneKB,
-    deleteKB,
-    UpdateKB,
-    querySearchingKB,
+exports.orderControllers = {
+    createOrder,
+    getAllOrders,
+    querySearchingOrder,
 };

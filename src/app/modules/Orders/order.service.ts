@@ -1,48 +1,29 @@
-import { KB } from './order.interface';
-import { KBModel } from './order.model';
+import express from 'express';
+import { order } from './order.interface';
+import { orderModel } from './order.model';
+const router = express.Router();
 
-const createKBinDB = async (KB: KB) => {
-  const result = await KBModel.create(KB);
+const createORDERinDB = async (order: order) => {
+  const result = await orderModel.create(order);
   return result;
 };
 
-const getAllKBsFromDB = async () => {
-  const result = await KBModel.find();
+const getAllORDERSFromDB = async () => {
+  const result = await orderModel.find();
   return result;
 };
 
-const getOneKBFromDB = async (id: string) => {
-  const result = await KBModel.findOne({ id });
-  console.log(result);
-  return result;
-};
-
-const deleteOneKBFromDB = async (id: string) => {
-  const result = await KBModel.deleteOne({ id });
-  return result;
-};
-
-const updateKBFromDB = async (id: string, updatedKB: KB) => {
-  const body = updatedKB;
-  const result = await KBModel.findByIdAndUpdate(id, body, { new: true });
-  console.log(result);
-  return result;
-};
-
-const searchKBFromDB = async (searchTerm: string | number) => {
-  let result = await KBModel.find({
-    name: { $regex: searchTerm, $options: 'i' },
+const searchOrderFromDB = async (givenEmail: string) => {
+  let result = await orderModel.find({
+    email: { $regex: givenEmail, $options: 'i' },
   });
 
   console.log(result);
   return result;
 };
 
-export const KBServices = {
-  createKBinDB,
-  getAllKBsFromDB,
-  getOneKBFromDB,
-  deleteOneKBFromDB,
-  updateKBFromDB,
-  searchKBFromDB,
+export const orderServices = {
+  createORDERinDB,
+  getAllORDERSFromDB,
+  searchOrderFromDB,
 };

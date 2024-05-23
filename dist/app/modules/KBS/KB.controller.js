@@ -8,14 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KBControllers = void 0;
 const KB_service_1 = require("./KB.service");
+const express_1 = __importDefault(require("express"));
+const router = express_1.default.Router();
 const createKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const KBData = req.body;
         const result = yield KB_service_1.KBServices.createKBinDB(KBData);
-        // send response
         res.status(200).json({
             success: true,
             message: 'KB is created successfully',
@@ -128,6 +132,25 @@ const querySearchingKB = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
+// = async (req: Request, res: Response) => {
+//   try {
+//     const id = req.params.id;
+//     const quantity = req.body.quantity;
+//     console.log(quantity);
+//     // const result = await KBServices.updateKBFromDB(id, updatedKB);
+//     res.status(200).json({
+//       success: true,
+//       message: 'specific KB updated successfully',
+//       // data: result,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(400).json({
+//       succss: false,
+//       message: 'failed to update data :(',
+//     });
+//   }
+// };
 exports.KBControllers = {
     createKB,
     getAllKBs,
@@ -135,4 +158,5 @@ exports.KBControllers = {
     deleteKB,
     UpdateKB,
     querySearchingKB,
+    // updateQuantity,
 };

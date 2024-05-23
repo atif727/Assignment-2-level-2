@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import { KBServices } from './KB.service';
+import express from 'express';
+import app from '../../../app';
+const router = express.Router();
 
 const createKB = async (req: Request, res: Response) => {
   try {
     const KBData = req.body;
     const result = await KBServices.createKBinDB(KBData);
-    // send response
     res.status(200).json({
       success: true,
       message: 'KB is created successfully',
@@ -118,6 +120,27 @@ const querySearchingKB = async (req: Request, res: Response) => {
   }
 };
 
+
+// = async (req: Request, res: Response) => {
+//   try {
+//     const id = req.params.id;
+//     const quantity = req.body.quantity;
+//     console.log(quantity);
+//     // const result = await KBServices.updateKBFromDB(id, updatedKB);
+//     res.status(200).json({
+//       success: true,
+//       message: 'specific KB updated successfully',
+//       // data: result,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(400).json({
+//       succss: false,
+//       message: 'failed to update data :(',
+//     });
+//   }
+// };
+
 export const KBControllers = {
   createKB,
   getAllKBs,
@@ -125,4 +148,5 @@ export const KBControllers = {
   deleteKB,
   UpdateKB,
   querySearchingKB,
+  // updateQuantity,
 };

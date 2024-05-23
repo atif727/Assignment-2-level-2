@@ -1,13 +1,11 @@
 import express from 'express';
-import { KBControllers } from './order.controller';
+import { orderControllers } from './order.controller';
 
 const router = express.Router();
 
-router.post('/', KBControllers.createKB);
-// router.get('/', KBControllers.getAllKBs);
-router.get('/:id', KBControllers.getOneKB);
-router.put('/:id', KBControllers.UpdateKB);
-router.delete('/:id', KBControllers.deleteKB);
-router.get('/', KBControllers.querySearchingKB);
+router.post('/', orderControllers.createOrder);
+// router.get('/', orderControllers.querySearchingOrder);
+router.get('/', orderControllers.getAllOrders);
+// what can i do :( ?
 
-export const KBRoutes = router;
+export const orderRoutes = router;

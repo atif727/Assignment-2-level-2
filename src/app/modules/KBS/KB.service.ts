@@ -17,6 +17,12 @@ const getOneKBFromDB = async (id: string) => {
   return result;
 };
 
+const getOneKBFromDBwith_id = async (_id: string) => {
+  const result = await KBModel.findOne({ _id });
+  console.log(result);
+  return result;
+};
+
 const deleteOneKBFromDB = async (id: string) => {
   const result = await KBModel.deleteOne({ id });
   return result;
@@ -45,4 +51,5 @@ export const KBServices = {
   deleteOneKBFromDB,
   updateKBFromDB,
   searchKBFromDB,
+  getOneKBFromDBwith_id,
 };

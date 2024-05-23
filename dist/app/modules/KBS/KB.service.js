@@ -24,6 +24,11 @@ const getOneKBFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(result);
     return result;
 });
+const getOneKBFromDBwith_id = (_id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield KB_model_1.KBModel.findOne({ _id });
+    console.log(result);
+    return result;
+});
 const deleteOneKBFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield KB_model_1.KBModel.deleteOne({ id });
     return result;
@@ -48,4 +53,5 @@ exports.KBServices = {
     deleteOneKBFromDB,
     updateKBFromDB,
     searchKBFromDB,
+    getOneKBFromDBwith_id,
 };
