@@ -39,8 +39,6 @@ const searchKBFromDB = async (searchTerm: string | number) => {
   let result = await KBModel.find({
     name: { $regex: searchTerm, $options: 'i' },
   });
-
-  console.log(result);
   return result;
 };
 

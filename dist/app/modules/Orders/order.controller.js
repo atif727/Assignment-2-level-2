@@ -65,16 +65,18 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     else {
         try {
             const givenEmail = req.query.email;
-            const result = yield order_service_1.orderServices.searchOrderFromDB(givenEmail);
-            res.status(200).json({
-                success: true,
-                message: `Orders matching the email ${givenEmail} found successfully!`,
-                data: result,
-            });
-            if (givenEmail === null) {
-                res.status(400).json({
-                    succss: false,
-                    message: 'email is missing in the query field',
+            let result = yield order_service_1.orderServices.searchOrderFromDB(givenEmail);
+            if (result.length === 0) {
+                res.status(200).json({
+                    success: false,
+                    message: `email not found`,
+                });
+            }
+            else {
+                res.status(200).json({
+                    success: true,
+                    message: `Orders matching the email ${givenEmail} found successfully!`,
+                    data: result,
                 });
             }
         }
@@ -90,5 +92,4 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.orderControllers = {
     createOrder,
     getAllOrders,
-    querySearchingOrder,
 };

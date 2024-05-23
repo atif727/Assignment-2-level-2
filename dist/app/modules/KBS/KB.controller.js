@@ -34,21 +34,55 @@ const createKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
 });
-const getAllKBs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield KB_service_1.KBServices.getAllKBsFromDB();
-        res.status(200).json({
-            success: true,
-            message: 'KBs shown successfully',
-            data: result,
-        });
+const getAllOrSearchedKBs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (Object.keys(req.query).length === 0) {
+        try {
+            const result = yield KB_service_1.KBServices.getAllKBsFromDB();
+            res.status(200).json({
+                success: true,
+                message: 'KBs shown successfully',
+                data: result,
+            });
+        }
+        catch (err) {
+            console.log(err);
+            res.status(400).json({
+                succss: false,
+                message: 'failed to get data :(',
+            });
+        }
     }
-    catch (err) {
-        console.log(err);
-        res.status(400).json({
-            succss: false,
-            message: 'failed to get data :(',
-        });
+    else {
+        try {
+            const searchTerm = req.query.searchTerm;
+            let result = yield KB_service_1.KBServices.searchKBFromDB(searchTerm);
+            if (result.length === 0) {
+                res.status(400).json({
+                    succss: false,
+                    message: 'Searched item is not found',
+                });
+            }
+            else {
+                res.status(200).json({
+                    success: true,
+                    message: `keyboard Products matching the term ${searchTerm} found successfully!`,
+                    data: result,
+                });
+            }
+            if (!searchTerm) {
+                res.status(400).json({
+                    succss: false,
+                    message: 'Search Term is missing in the searchTerm query field',
+                });
+            }
+        }
+        catch (err) {
+            console.log(err);
+            res.status(400).json({
+                succss: false,
+                message: 'failed to get data :(',
+            });
+        }
     }
 });
 const getOneKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -106,57 +140,10 @@ const UpdateKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
 });
-const querySearchingKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const searchTerm = req.query.searchTerm;
-        // console.log(searchTerm)
-        const request = req;
-        const result = yield KB_service_1.KBServices.searchKBFromDB(searchTerm);
-        res.status(200).json({
-            success: true,
-            message: `keyboard Products matching the term ${searchTerm} found successfully!`,
-            data: result,
-        });
-        if (!searchTerm) {
-            res.status(400).json({
-                succss: false,
-                message: 'Search Term is missing in the searchTerm query field',
-            });
-        }
-    }
-    catch (err) {
-        console.log(err);
-        res.status(400).json({
-            succss: false,
-            message: 'failed to get data :(',
-        });
-    }
-});
-// = async (req: Request, res: Response) => {
-//   try {
-//     const id = req.params.id;
-//     const quantity = req.body.quantity;
-//     console.log(quantity);
-//     // const result = await KBServices.updateKBFromDB(id, updatedKB);
-//     res.status(200).json({
-//       success: true,
-//       message: 'specific KB updated successfully',
-//       // data: result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(400).json({
-//       succss: false,
-//       message: 'failed to update data :(',
-//     });
-//   }
-// };
 exports.KBControllers = {
     createKB,
-    getAllKBs,
+    getAllOrSearchedKBs,
     getOneKB,
     deleteKB,
     UpdateKB,
-    querySearchingKB,
-    // updateQuantity,
 };

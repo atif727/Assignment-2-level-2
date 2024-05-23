@@ -22,20 +22,51 @@ const createKB = async (req: Request, res: Response) => {
   }
 };
 
-const getAllKBs = async (req: Request, res: Response) => {
-  try {
-    const result = await KBServices.getAllKBsFromDB();
-    res.status(200).json({
-      success: true,
-      message: 'KBs shown successfully',
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      succss: false,
-      message: 'failed to get data :(',
-    });
+const getAllOrSearchedKBs = async (req: Request, res: Response) => {
+  if (Object.keys(req.query).length === 0) {
+    try {
+      const result = await KBServices.getAllKBsFromDB();
+      res.status(200).json({
+        success: true,
+        message: 'KBs shown successfully',
+        data: result,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({
+        succss: false,
+        message: 'failed to get data :(',
+      });
+    }
+  } else {
+    try {
+      const searchTerm: string | number = req.query.searchTerm as string;
+      let result = await KBServices.searchKBFromDB(searchTerm);
+      if (result.length === 0) {
+        res.status(400).json({
+          succss: false,
+          message: 'Searched item is not found',
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: `keyboard Products matching the term ${searchTerm} found successfully!`,
+          data: result,
+        });
+      }
+      if (!searchTerm) {
+        res.status(400).json({
+          succss: false,
+          message: 'Search Term is missing in the searchTerm query field',
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({
+        succss: false,
+        message: 'failed to get data :(',
+      });
+    }
   }
 };
 
@@ -93,60 +124,10 @@ const UpdateKB = async (req: Request, res: Response) => {
   }
 };
 
-const querySearchingKB = async (req: Request, res: Response) => {
-  try {
-    const searchTerm: string | number = req.query.searchTerm as string;
-    // console.log(searchTerm)
-
-    const request: Request = req;
-    const result = await KBServices.searchKBFromDB(searchTerm);
-    res.status(200).json({
-      success: true,
-      message: `keyboard Products matching the term ${searchTerm} found successfully!`,
-      data: result,
-    });
-    if (!searchTerm) {
-      res.status(400).json({
-        succss: false,
-        message: 'Search Term is missing in the searchTerm query field',
-      });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      succss: false,
-      message: 'failed to get data :(',
-    });
-  }
-};
-
-
-// = async (req: Request, res: Response) => {
-//   try {
-//     const id = req.params.id;
-//     const quantity = req.body.quantity;
-//     console.log(quantity);
-//     // const result = await KBServices.updateKBFromDB(id, updatedKB);
-//     res.status(200).json({
-//       success: true,
-//       message: 'specific KB updated successfully',
-//       // data: result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(400).json({
-//       succss: false,
-//       message: 'failed to update data :(',
-//     });
-//   }
-// };
-
 export const KBControllers = {
   createKB,
-  getAllKBs,
+  getAllOrSearchedKBs,
   getOneKB,
   deleteKB,
   UpdateKB,
-  querySearchingKB,
-  // updateQuantity,
 };

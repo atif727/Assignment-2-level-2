@@ -43,7 +43,6 @@ const searchKBFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, functio
     let result = yield KB_model_1.KBModel.find({
         name: { $regex: searchTerm, $options: 'i' },
     });
-    console.log(result);
     return result;
 });
 exports.KBServices = {

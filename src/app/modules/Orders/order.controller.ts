@@ -52,16 +52,17 @@ const getAllOrders = async (req: Request, res: Response) => {
   } else {
     try {
       const givenEmail: string = req.query.email as string;
-      const result = await orderServices.searchOrderFromDB(givenEmail);
-      res.status(200).json({
-        success: true,
-        message: `Orders matching the email ${givenEmail} found successfully!`,
-        data: result,
-      });
-      if (givenEmail === null) {
-        res.status(400).json({
-          succss: false,
-          message: 'email is missing in the query field',
+      let result = await orderServices.searchOrderFromDB(givenEmail);
+      if (result.length === 0) {
+        res.status(200).json({
+          success: false,
+          message: `email not found`,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: `Orders matching the email ${givenEmail} found successfully!`,
+          data: result,
         });
       }
     } catch (err) {
@@ -74,9 +75,7 @@ const getAllOrders = async (req: Request, res: Response) => {
   }
 };
 
-
 export const orderControllers = {
   createOrder,
   getAllOrders,
-  querySearchingOrder,
 };
