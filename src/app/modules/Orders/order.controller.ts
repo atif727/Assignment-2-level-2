@@ -9,7 +9,7 @@ const createOrder = async (req: Request, res: Response) => {
     const orderData = req.body;
     const result = await orderServices.createORDERinDB(orderData);
     const wantedQuantity = result.quantity;
-    let keyboard = await KBModel.findById(result.productId)
+    let keyboard = await KBModel.findById(result.productId);
     if (!keyboard) {
       return res
         .status(404)
@@ -32,6 +32,7 @@ const createOrder = async (req: Request, res: Response) => {
         keyboard.inventory.inStock = true;
       }
       await keyboard.save();
+
       res.status(200).json({
         success: true,
         message: 'order is created successfully',
