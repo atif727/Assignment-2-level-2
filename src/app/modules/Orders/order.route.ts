@@ -1,5 +1,5 @@
 import express from 'express';
-import { KBControllers } from './KB.controller';
+import { KBControllers } from './order.controller';
 
 const router = express.Router();
 

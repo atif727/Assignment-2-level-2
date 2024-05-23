@@ -10,11 +10,19 @@ app.use(cors());
 // application
 
 app.use('/api/products', KBRoutes);
+app.use('/api/orders', KBRoutes);
 
-const getAcontroller = (req: Request, res: Response) => {
+const home = (req: Request, res: Response) => {
   res.send('erm hii..');
 };
 
-app.get('/', getAcontroller);
+app.get('/', home);
+
+app.all("*", (req, res) => {
+  res.status(400).json({
+      success: false,
+      message: "route not found"
+  })
+})
 
 export default app;

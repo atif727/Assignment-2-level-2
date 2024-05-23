@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { KBServices } from './KB.service';
+import { KBServices } from './order.service';
 
 const createKB = async (req: Request, res: Response) => {
   try {

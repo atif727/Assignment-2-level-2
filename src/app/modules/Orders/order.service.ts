@@ -1,5 +1,5 @@
-import { KB } from './KB.interface';
-import { KBModel } from './KB.model';
+import { KB } from './order.interface';
+import { KBModel } from './order.model';
 
 const createKBinDB = async (KB: KB) => {
   const result = await KBModel.create(KB);

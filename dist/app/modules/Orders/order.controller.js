@@ -10,11 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KBControllers = void 0;
-const KB_service_1 = require("./KB.service");
+const order_service_1 = require("./order.service");
 const createKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const KBData = req.body;
-        const result = yield KB_service_1.KBServices.createKBinDB(KBData);
+        const result = yield order_service_1.KBServices.createKBinDB(KBData);
         // send response
         res.status(200).json({
             success: true,
@@ -32,7 +32,7 @@ const createKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const getAllKBs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield KB_service_1.KBServices.getAllKBsFromDB();
+        const result = yield order_service_1.KBServices.getAllKBsFromDB();
         res.status(200).json({
             success: true,
             message: 'KBs shown successfully',
@@ -50,7 +50,7 @@ const getAllKBs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 const getOneKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const KBId = req.params.id;
-        const result = yield KB_service_1.KBServices.getOneKBFromDB(KBId);
+        const result = yield order_service_1.KBServices.getOneKBFromDB(KBId);
         res.status(200).json({
             success: true,
             message: 'specific KB shown successfully',
@@ -68,7 +68,7 @@ const getOneKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 const deleteKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const KBId = req.params.id;
-        const result = yield KB_service_1.KBServices.deleteOneKBFromDB(KBId);
+        const result = yield order_service_1.KBServices.deleteOneKBFromDB(KBId);
         res.status(200).json({
             success: true,
             message: 'specific KB Deleted successfully',
@@ -87,7 +87,7 @@ const UpdateKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
         const updatedKB = req.body;
-        const result = yield KB_service_1.KBServices.updateKBFromDB(id, updatedKB);
+        const result = yield order_service_1.KBServices.updateKBFromDB(id, updatedKB);
         res.status(200).json({
             success: true,
             message: 'specific KB updated successfully',
@@ -107,7 +107,7 @@ const querySearchingKB = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const searchTerm = req.query.searchTerm;
         // console.log(searchTerm)
         const request = req;
-        const result = yield KB_service_1.KBServices.searchKBFromDB(searchTerm);
+        const result = yield order_service_1.KBServices.searchKBFromDB(searchTerm);
         res.status(200).json({
             success: true,
             message: `keyboard Products matching the term ${searchTerm} found successfully!`,

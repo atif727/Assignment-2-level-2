@@ -10,32 +10,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KBServices = void 0;
-const KB_model_1 = require("./KB.model");
+const order_model_1 = require("./order.model");
 const createKBinDB = (KB) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield KB_model_1.KBModel.create(KB);
+    const result = yield order_model_1.KBModel.create(KB);
     return result;
 });
 const getAllKBsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield KB_model_1.KBModel.find();
+    const result = yield order_model_1.KBModel.find();
     return result;
 });
 const getOneKBFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield KB_model_1.KBModel.findOne({ id });
+    const result = yield order_model_1.KBModel.findOne({ id });
     console.log(result);
     return result;
 });
 const deleteOneKBFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield KB_model_1.KBModel.deleteOne({ id });
+    const result = yield order_model_1.KBModel.deleteOne({ id });
     return result;
 });
 const updateKBFromDB = (id, updatedKB) => __awaiter(void 0, void 0, void 0, function* () {
     const body = updatedKB;
-    const result = yield KB_model_1.KBModel.findByIdAndUpdate(id, body, { new: true });
+    const result = yield order_model_1.KBModel.findByIdAndUpdate(id, body, { new: true });
     console.log(result);
     return result;
 });
 const searchKBFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
-    let result = yield KB_model_1.KBModel.find({
+    let result = yield order_model_1.KBModel.find({
         name: { $regex: searchTerm, $options: 'i' },
     });
     console.log(result);

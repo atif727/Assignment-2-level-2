@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { KB, variant } from './KB.interface';
+import { KB, variant } from './order.interface';
 
 const varriantSchema = new Schema<variant>({
   type: { type: String, required: true },
@@ -17,4 +17,4 @@ const KBSchema = new Schema<KB>({
   inventory: { quantity: Number, inStock: Boolean },
 });
 
-export const KBModel = model<KB>('kbs', KBSchema);
+export const orderModel = model<KB>('orders', KBSchema);

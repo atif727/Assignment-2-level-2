@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KBModel = void 0;
+exports.orderModel = void 0;
 const mongoose_1 = require("mongoose");
 const varriantSchema = new mongoose_1.Schema({
     type: { type: String, required: true },
@@ -16,4 +16,4 @@ const KBSchema = new mongoose_1.Schema({
     variants: [varriantSchema],
     inventory: { quantity: Number, inStock: Boolean },
 });
-exports.KBModel = (0, mongoose_1.model)('kbs', KBSchema);
+exports.orderModel = (0, mongoose_1.model)('orders', KBSchema);

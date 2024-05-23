@@ -12,8 +12,15 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // application
 app.use('/api/products', KB_route_1.KBRoutes);
-const getAcontroller = (req, res) => {
+app.use('/api/orders', KB_route_1.KBRoutes);
+const home = (req, res) => {
     res.send('erm hii..');
 };
-app.get('/', getAcontroller);
+app.get('/', home);
+app.all("*", (req, res) => {
+    res.status(400).json({
+        success: false,
+        message: "route not found"
+    });
+});
 exports.default = app;
