@@ -7,7 +7,7 @@ const createKB = async (req: Request, res: Response) => {
     const KBData = req.body;
     const { error } = KBValidationSchema.validate(KBData);
     const result = await KBServices.createKBinDB(KBData);
- 
+
     if (error) {
       res.status(400).json({
         success: false,
@@ -136,15 +136,10 @@ const UpdateKB = async (req: Request, res: Response) => {
     } else {
       res.status(200).json({
         success: true,
-        message: 'specific KB shown successfully',
+        message: 'specific KB updated successfully',
         data: result,
       });
     }
-    res.status(200).json({
-      success: true,
-      message: 'specific KB updated successfully',
-      data: result,
-    });
   } catch (err) {
     res.status(400).json({
       succss: false,

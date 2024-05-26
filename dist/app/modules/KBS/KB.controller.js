@@ -154,15 +154,10 @@ const UpdateKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         else {
             res.status(200).json({
                 success: true,
-                message: 'specific KB shown successfully',
+                message: 'specific KB updated successfully',
                 data: result,
             });
         }
-        res.status(200).json({
-            success: true,
-            message: 'specific KB updated successfully',
-            data: result,
-        });
     }
     catch (err) {
         res.status(400).json({
