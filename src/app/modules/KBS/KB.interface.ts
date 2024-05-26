@@ -7,7 +7,6 @@ export type inventory = {
   inStock: boolean;
 };
 export type KB = {
-  id: string;
   name: string;
   description: string;
   price: number;

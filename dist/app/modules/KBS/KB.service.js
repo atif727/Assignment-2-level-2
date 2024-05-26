@@ -19,22 +19,20 @@ const getAllKBsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield KB_model_1.KBModel.find();
     return result;
 });
-const getOneKBFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield KB_model_1.KBModel.findOne({ id });
-    console.log(result);
+const getOneKBFromDB = (_id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield KB_model_1.KBModel.findOne({ _id });
     return result;
 });
 const getOneKBFromDBwith_id = (_id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield KB_model_1.KBModel.findOne({ _id });
-    console.log(result);
     return result;
 });
-const deleteOneKBFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield KB_model_1.KBModel.deleteOne({ id });
+const deleteOneKBFromDB = (_id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield KB_model_1.KBModel.deleteOne({ _id });
     return result;
 });
-const updateKBFromDB = (id, updatedKB) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield KB_model_1.KBModel.findByIdAndUpdate(id, updatedKB, { new: true });
+const updateKBFromDB = (_id, updatedKB) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield KB_model_1.KBModel.findByIdAndUpdate(_id, updatedKB, { new: true });
     return result;
 });
 const searchKBFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {

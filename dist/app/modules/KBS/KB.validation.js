@@ -22,11 +22,6 @@ const inventoryValidationSchema = joi_1.default.object({
     }),
 });
 const KBValidationSchema = joi_1.default.object({
-    id: joi_1.default.string().trim().min(6).max(6).required().messages({
-        'any.required': 'give an id',
-        'string.min': 'id: not less than 6 digits',
-        'string.max': 'id: not more than 6 digits',
-    }),
     name: joi_1.default.string().trim().required().messages({
         'any.required': 'give a name of the product',
     }),

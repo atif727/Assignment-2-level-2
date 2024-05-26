@@ -11,25 +11,23 @@ const getAllKBsFromDB = async () => {
   return result;
 };
 
-const getOneKBFromDB = async (id: string) => {
-  const result = await KBModel.findOne({ id });
-  console.log(result);
+const getOneKBFromDB = async (_id: string) => {
+  const result = await KBModel.findOne({ _id });
   return result;
 };
 
 const getOneKBFromDBwith_id = async (_id: string) => {
   const result = await KBModel.findOne({ _id });
-  console.log(result);
   return result;
 };
 
-const deleteOneKBFromDB = async (id: string) => {
-  const result = await KBModel.deleteOne({ id });
+const deleteOneKBFromDB = async (_id: string) => {
+  const result = await KBModel.deleteOne({ _id });
   return result;
 };
 
-const updateKBFromDB = async (id: string, updatedKB: KB) => {
-  const result = await KBModel.findByIdAndUpdate(id, updatedKB, { new: true });
+const updateKBFromDB = async (_id: string, updatedKB: KB) => {
+  const result = await KBModel.findByIdAndUpdate(_id, updatedKB, { new: true });
   return result;
 };
 

@@ -28,13 +28,6 @@ const inventorySchema = new mongoose_1.Schema({
     },
 }, { _id: false });
 const KBSchema = new mongoose_1.Schema({
-    id: {
-        type: String,
-        required: [true, 'give an id'],
-        minlength: [6, 'id: not less than 6 digits'],
-        maxlength: [6, 'id: not more than 6 digits'],
-        trim: true,
-    },
     name: {
         type: String,
         required: [true, 'give a name of the product'],
