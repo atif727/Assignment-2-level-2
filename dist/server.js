@@ -21,7 +21,7 @@ function main() {
         try {
             yield mongoose_1.default.connect(database_url);
             app_1.default.listen(port, () => {
-                console.log(`Example app listening on port ${port}`);
+                console.log(`My Assignmet app listening on port ${port}`);
             });
         }
         catch (err) {
