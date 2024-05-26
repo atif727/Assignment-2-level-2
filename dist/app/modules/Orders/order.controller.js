@@ -17,16 +17,13 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const orderData = req.body;
         const result = yield order_service_1.orderServices.createORDERinDB(orderData);
         const wantedQuantity = result.quantity;
-        let keyboard = yield KB_model_1.KBModel.findById(result.productId);
+        const keyboard = yield KB_model_1.KBModel.findById(result.productId);
         if (!keyboard) {
             return res
                 .status(404)
                 .json({ success: false, message: 'Keyboard not found' });
         }
-        if (result.quantity > keyboard.inventory.quantity
-        // keyboard.inventory.quantity === 0 &&
-        // keyboard.inventory.inStock === false
-        ) {
+        if (result.quantity > keyboard.inventory.quantity) {
             return res.status(404).json({
                 success: false,
                 message: 'Insufficient quantity of the product in inventory',
@@ -49,10 +46,10 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
     }
     catch (err) {
-        console.log(err);
         res.status(400).json({
             succss: false,
             message: 'failed to create order :(',
+            error: err
         });
     }
 });
@@ -67,7 +64,6 @@ const getAllOrFilteredOrders = (req, res) => __awaiter(void 0, void 0, void 0, f
             });
         }
         catch (err) {
-            console.log(err);
             res.status(400).json({
                 succss: false,
                 message: 'failed to get orders :(',
@@ -93,7 +89,6 @@ const getAllOrFilteredOrders = (req, res) => __awaiter(void 0, void 0, void 0, f
             }
         }
         catch (err) {
-            console.log(err);
             res.status(400).json({
                 succss: false,
                 message: 'failed to get email :(',

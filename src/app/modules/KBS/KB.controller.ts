@@ -1,8 +1,5 @@
 import { Request, Response } from 'express';
 import { KBServices } from './KB.service';
-import express from 'express';
-import app from '../../../app';
-const router = express.Router();
 
 const createKB = async (req: Request, res: Response) => {
   try {
@@ -14,10 +11,10 @@ const createKB = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
     res.status(400).json({
       succss: false,
       message: 'failed to create data :(',
+      error: err,
     });
   }
 };
@@ -32,7 +29,6 @@ const getAllOrSearchedKBs = async (req: Request, res: Response) => {
         data: result,
       });
     } catch (err) {
-      console.log(err);
       res.status(400).json({
         succss: false,
         message: 'failed to get data :(',
@@ -61,7 +57,6 @@ const getAllOrSearchedKBs = async (req: Request, res: Response) => {
         });
       }
     } catch (err) {
-      console.log(err);
       res.status(400).json({
         succss: false,
         message: 'failed to get data :(',
@@ -74,13 +69,19 @@ const getOneKB = async (req: Request, res: Response) => {
   try {
     const KBId = req.params.id;
     const result = await KBServices.getOneKBFromDB(KBId);
-    res.status(200).json({
-      success: true,
-      message: 'specific KB shown successfully',
-      data: result,
-    });
+    if (result === null) {
+      res.status(400).json({
+        success: false,
+        message: 'specific KB not found :(',
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'specific KB shown successfully',
+        data: result,
+      });
+    }
   } catch (err) {
-    console.log(err);
     res.status(400).json({
       succss: false,
       message: 'failed to get data :(',
@@ -92,13 +93,19 @@ const deleteKB = async (req: Request, res: Response) => {
   try {
     const KBId = req.params.id;
     const result = await KBServices.deleteOneKBFromDB(KBId);
-    res.status(200).json({
-      success: true,
-      message: 'specific KB Deleted successfully',
-      data: result,
-    });
+    if (result.deletedCount === 0) {
+      res.status(400).json({
+        success: false,
+        message: 'specific KB not found',
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'specific KB Deleted successfully',
+        data: result,
+      });
+    }
   } catch (err) {
-    console.log(err);
     res.status(400).json({
       succss: false,
       message: 'failed to delete data :(',
@@ -110,13 +117,24 @@ const UpdateKB = async (req: Request, res: Response) => {
     const id = req.params.id;
     const updatedKB = req.body;
     const result = await KBServices.updateKBFromDB(id, updatedKB);
+    if (result === null) {
+      res.status(400).json({
+        success: false,
+        message: 'specific KB not found :(',
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'specific KB shown successfully',
+        data: result,
+      });
+    }
     res.status(200).json({
       success: true,
       message: 'specific KB updated successfully',
       data: result,
     });
   } catch (err) {
-    console.log(err);
     res.status(400).json({
       succss: false,
       message: 'failed to update data :(',

@@ -1,7 +1,11 @@
-export type variant ={
+export type variant = {
   type: string;
-  value:string;
-}
+  value: string;
+};
+export type inventory = {
+  quantity: number;
+  inStock: boolean;
+};
 export type KB = {
   id: string;
   name: string;
@@ -10,10 +14,7 @@ export type KB = {
   category: string;
   tags: string[];
   variants: variant[];
-  inventory: {
-    quantity: number;
-    inStock: boolean;
-  };
+  inventory: inventory;
 };
 
 export default KB;
