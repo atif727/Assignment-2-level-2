@@ -1,10 +1,21 @@
 import { Request, Response } from 'express';
 import { KBServices } from './KB.service';
+import KBValidationSchema from './KB.validation';
 
 const createKB = async (req: Request, res: Response) => {
   try {
     const KBData = req.body;
+    const { error } = KBValidationSchema.validate(KBData);
     const result = await KBServices.createKBinDB(KBData);
+ 
+    if (error) {
+      res.status(400).json({
+        success: false,
+        message: 'Something is wrong :(',
+        error: error.details,
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: 'KB is created successfully',

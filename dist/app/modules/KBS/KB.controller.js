@@ -8,13 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KBControllers = void 0;
 const KB_service_1 = require("./KB.service");
+const KB_validation_1 = __importDefault(require("./KB.validation"));
 const createKB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const KBData = req.body;
+        const { error } = KB_validation_1.default.validate(KBData);
         const result = yield KB_service_1.KBServices.createKBinDB(KBData);
+        if (error) {
+            res.status(400).json({
+                success: false,
+                message: 'Something is wrong :(',
+                error: error.details,
+            });
+        }
         res.status(200).json({
             success: true,
             message: 'KB is created successfully',
