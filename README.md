@@ -1,4 +1,4 @@
-# public live link of this server
+# Public live link of this server
 > https://ecommerce-website-by-atif.vercel.app/
 
 ## This is a server for a shop that sells keyboard
