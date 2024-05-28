@@ -9,7 +9,7 @@
 # **There are total 9 methods and functionalities.**
 
 ## 1. Creating a new product || Using `POST` method:
-   * use `< serverlink >/api/products` and use **PostMan** or any other calling software to while maintaining the required product model/structure in [KB.sample.json](https://github.com/AtifBatch5/Assignment-2-level-2/blob/main/KB.sample.json) create a product in the database.
+   * use `< serverlink >/api/products` and use **PostMan** or any other calling software while maintaining the required product model/structure in [KB.sample.json](https://github.com/AtifBatch5/Assignment-2-level-2/blob/main/KB.sample.json) create a product in the database.
 
 ## 2. Getting All products || Using `GET` method:
    * use `< serverlink >/api/products` and use **PostMan** or any other calling software to get all the products in the database.
